@@ -1,7 +1,6 @@
 package com.codecool.filepartreader;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +13,7 @@ public class FilePartReader {
     private Integer toLine;
 
     public FilePartReader() {
-        this.filePath = "aaa";
+        this.filePath = "zzz";
         this.fromLine = 0;
         this.toLine = 0;
     }
@@ -28,35 +27,37 @@ public class FilePartReader {
     public String read() throws IOException {
         File file = new File(this.filePath);
         Scanner scanner = new Scanner(file);
-
-        String fileContent = "";
-        while (scanner.hasNext()) {
-            fileContent += (scanner.next() + "\n");
+        StringBuilder stringBuilder = new StringBuilder();
+        while (scanner.hasNextLine()) {
+            stringBuilder
+                    .append(scanner.nextLine())
+                    .append("\n");
         }
-        return fileContent.trim();
+        return stringBuilder.toString().trim();
     }
 
-    public String readLines() {
-        try {
-            String fileContent = this.read();
-            String[] fileContentLines = fileContent.split("\n");
-            List<String> filePartLines = new ArrayList<>();
+    public String readLines() throws IOException {
+        String content = this.read();
+        String[] allLines = content.split("\n");
+        List<String> lines = new ArrayList<>(Arrays.asList(allLines)
+                .subList(this.fromLine - 1, this.toLine));
 
-            for(int i = this.fromLine-1; i < this.toLine; i++) {
-                filePartLines.add(fileContentLines[i]);
-            }
-            return filePartLines.toString();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String line : lines) {
+            stringBuilder
+                    .append(line)
+                    .append("\n");
         }
-        catch (IOException error) {
-            System.err.println("ERROR! " + error);
-            return "";
-        }
+        return stringBuilder.toString().trim();
     }
 
     public static void main(String[] args) {
         FilePartReader test1 = new FilePartReader();
         test1.setup("/home/ligetimark/codecool/oop/SI5/filepartreader-testing-with-junit-markligeti/test.txt", 1, 5);
-        System.out.println(test1.readLines());
+        try {
+            System.out.println(test1.readLines());
+        } catch(IOException error) {
+            System.err.println("ERROR! " + error);
+        }
     }
-
 }
