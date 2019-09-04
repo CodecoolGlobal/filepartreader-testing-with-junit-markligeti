@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileWordAnalyzer {
-    private FilePartReader filePartReader;
+    FilePartReader filePartReader;
 
     public FileWordAnalyzer(FilePartReader filePartReader) {
         this.filePartReader = filePartReader;
@@ -20,7 +20,7 @@ public class FileWordAnalyzer {
         for (int i = 0; i < words.size(); i++) {
             words.set(i, words.get(i).replaceAll("[.,?!:;\"\']", ""));
         }
-        return words;
+        return new ArrayList(words);
     }
 
     public List getWordsContainingSubstring(String subString) throws IOException {
