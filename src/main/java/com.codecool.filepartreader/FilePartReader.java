@@ -58,19 +58,4 @@ public class FilePartReader {
         }
         return stringBuilder.toString().trim();
     }
-
-    public static void main(String[] args) {
-        //  Get absolute path for filePath
-        String relPath = "src/test/resources/test.txt";
-        File testFile = new File(relPath);
-        String absPath = testFile.getAbsolutePath();
-
-        FilePartReader filePartReader = new FilePartReader();
-        filePartReader.setup(absPath, 1, 5);
-        try {
-            System.out.println(filePartReader.readLines());
-        } catch (IOException error) {
-            System.err.println("ERROR! " + error);
-        }
-    }
 }

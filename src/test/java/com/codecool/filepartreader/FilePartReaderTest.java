@@ -63,4 +63,46 @@ class FilePartReaderTest {
             System.err.println("ERROR! " + error);
         }
     }
+
+    @Test
+    public void testReadLines_IsReadContentCorrect_SomeLines() {
+        FilePartReader filePartReader = new FilePartReader();
+        filePartReader.setup(absPath, 7, 8);
+        try {
+            assertEquals("ut aliquip ex ea commodo \n" +
+                    "consequat. Duis aute irure dolor",
+                    filePartReader.readLines());
+        } catch (IOException error) {
+            System.err.println("ERROR! " + error);
+        }
+    }
+
+    @Test
+    public void testReadLines_IsReadContentCorrect_FirstLineAlso() {
+        FilePartReader filePartReader = new FilePartReader();
+        filePartReader.setup(absPath, 1, 3);
+        try {
+            assertEquals("Lorem ipsum dolor sit amet, \n" +
+                    "consectetur adipisicing elit, sed do \n" +
+                    "eiusmod tempor incididunt ut labore",
+                    filePartReader.readLines());
+        } catch (IOException error) {
+            System.err.println("ERROR! " + error);
+        }
+    }
+
+    @Test
+    public void testReadLines_IsReadContentCorrect_FirstLineOnly() {
+        FilePartReader filePartReader = new FilePartReader();
+        filePartReader.setup(absPath, 1, 1);
+        try {
+            assertEquals("Lorem ipsum dolor sit amet,",
+                    filePartReader.readLines());
+        } catch (IOException error) {
+            System.err.println("ERROR! " + error);
+        }
+    }
+
+
+
 }
