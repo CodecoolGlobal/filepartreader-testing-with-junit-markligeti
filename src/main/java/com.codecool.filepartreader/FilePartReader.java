@@ -20,8 +20,16 @@ public class FilePartReader {
 
     public void setup(String filePath, Integer fromLine, Integer toLine) {
         this.filePath = filePath;
-        this.fromLine = fromLine;
-        this.toLine = toLine;
+        if (fromLine < 1) {
+            throw new IllegalArgumentException("Parameter 'fromLine' cannot be lower than 1.");
+        } else {
+            this.fromLine = fromLine;
+        }
+        if (toLine < fromLine) {
+            throw new IllegalArgumentException("Parameter 'toLine' cannot be lower than 'fromLine'!");
+        } else {
+            this.toLine = toLine;
+        }
     }
 
     public String read() throws IOException {
@@ -52,11 +60,16 @@ public class FilePartReader {
     }
 
     public static void main(String[] args) {
-        FilePartReader test1 = new FilePartReader();
-        test1.setup("/home/ligetimark/codecool/oop/SI5/filepartreader-testing-with-junit-markligeti/test.txt", 1, 5);
+        //  Get absolute path for filePath
+        String relPath = "src/test/resources/test.txt";
+        File testFile = new File(relPath);
+        String absPath = testFile.getAbsolutePath();
+
+        FilePartReader filePartReader = new FilePartReader();
+        filePartReader.setup(absPath, 1, 5);
         try {
-            System.out.println(test1.readLines());
-        } catch(IOException error) {
+            System.out.println(filePartReader.readLines());
+        } catch (IOException error) {
             System.err.println("ERROR! " + error);
         }
     }

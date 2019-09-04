@@ -1,5 +1,6 @@
 package com.codecool.filepartreader;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,9 +51,14 @@ public class FileWordAnalyzer {
     }
 
     public static void main(String[] args) {
-        FilePartReader reader1 = new FilePartReader();
-        reader1.setup("/home/ligetimark/codecool/oop/SI5/filepartreader-testing-with-junit-markligeti/test.txt", 1, 5);
-        FileWordAnalyzer test1 = new FileWordAnalyzer(reader1);
+        //  Get absolute path for filePath
+        String relPath = "src/test/resources/test.txt";
+        File testFile = new File(relPath);
+        String absPath = testFile.getAbsolutePath();
+
+        FilePartReader filePartReader = new FilePartReader();
+        filePartReader.setup(absPath, 1, 5);
+        FileWordAnalyzer test1 = new FileWordAnalyzer(filePartReader);
         try {
             System.out.println(test1.getWordsOrderedAlphabetically());
             System.out.println(test1.getWordsContainingSubstring("or"));
